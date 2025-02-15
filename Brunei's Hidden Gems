@@ -1,0 +1,10 @@
+Themes :Brunei's Hidden Gems
+Css animation-we will be doing card slider of intresting places in brunei with features of carousel effect , where if you click one card it will be highlighted in center and the other will be blurred.
+The highlighted card also will have interactive buttons ' Explore', with sparkle using css animation to make it more interesting which is to show the details of the places.
+
+Geolocation -The use of geolocation to track hidden gems near me by using their location.By clicking an existing button of 'near me' with sparkle button using css animation to make them more interested.
+
+Drag and drop-we will be doing a features that allow user to rank the places based on their interest level by dragging the image from one box to another.User will reorder them from most interested to least
+interested 
+
+Server side event - we will be doing features that show the real time updates for brunei weather forecast and prayer times.
