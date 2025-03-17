@@ -7,4 +7,4 @@ Geolocation -The use of geolocation to track hidden gems near me by using their 
 Drag and drop-we will be doing a features that allow user to rank the places based on their interest level by dragging the image from one box to another.User will reorder them from most interested to least
 interested 
 
-Server side event - we will be doing features that show the real time updates for brunei weather forecast and prayer times.
+Server side event -Server side event -  To shows updates of live reflection that stays fixed on the right side of the screen.By pressing the button it will sent update from server without the need of refreshing the page .
