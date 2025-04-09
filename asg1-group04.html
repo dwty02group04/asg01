@@ -1,0 +1,1016 @@
+<!DOCTYPE html> sticky
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Brunei Attractions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700&family=Roboto+Slab:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&display=swap" rel="stylesheet">
+    <style>
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+         @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+    @keyframes glowEffect {
+    0% { text-shadow: 0 0 5px #50C878, 0 0 10px #50C878, 0 0 15px #50C878; }
+    50% { text-shadow: 0 0 10px #50C878, 0 0 20px #50C878, 0 0 30px #50C878; }
+    100% { text-shadow: 0 0 5px #50C878, 0 0 10px #50C878, 0 0 15px #50C878; }
+    }
+
+    @keyframes glowEffectblack {
+    0% { text-shadow: 0 0 5px black;}
+    50% { text-shadow: 0 0 10px black;}
+    100% { text-shadow: 0 0 5px black;}
+    }
+
+    @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+    @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: #203a43; 
+            overflow-x: hidden; 
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: right;
+            margin: 0;
+            padding-right: 40px;
+        }
+        nav ul li {
+            margin: 0 25px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #f1c40f;
+            transform: translateY(-3px);
+        }
+
+        /*Page intro*/
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            border-radius: 25px;
+            color: white;
+            margin: 100px 20px 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+            overflow-x: hidden;
+        }
+        .hero-text {
+            max-width: 50%;
+            text-align: left;
+        }
+        .hero h1 {
+            font-family: "Carter One", system-ui;
+            font-size: 65px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 20px;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+        .hero img {
+            width: 38%;
+            border-radius: 15px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+        }
+         
+
+        /*CSS animation */
+        /*Background title that change when card is change*/
+        .background-title {
+            position: absolute;
+            left: 2cm;
+            bottom: 11cm;
+            font-family: 'Playfair Display SC', sans-serif;
+            font-size: 44px;
+            font-weight:400;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+            text-align: left;
+            z-index: 500;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            animation:  glowEffect 1.5s infinite alternate;;
+        }
+
+        .background-description {
+            position: absolute;
+            left: 2.3cm;
+            bottom: 3.5cm; 
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            line-height: 1.4;
+            background:#rgba(0, 0, 0, 1.0); 
+            padding: 15px;
+            backdrop-filter: blur(5px); 
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+        }
+
+
+        /*Main Title Header*/
+        .main-title{
+            position: absolute;
+            top: 3cm;
+            left: 3cm;
+            font-family: 'Bungee', sans-serif;
+            font-size: 50px;
+            font-weight:400;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+            text-align: left;
+            z-index: 5;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+           
+        }
+        .main-description {
+            position: absolute;
+            top: 5cm; /* Adjust as needed */
+            left: 12cm;
+            font-family: 'Raleway', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+        
+        }
+
+        /* Card Styles */
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            max-width: 1200px;
+            position: absolute;
+            right: 10%;
+            bottom: 2cm;
+            transition: filter 0.5s ease-in-out;
+        }
+        
+        .card {
+            position: relative;
+            width: 150px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-out, opacity 0.5s ease-in-out;
+            cursor: pointer;
+            animation: fadeIn 0.8s ease-in-out;
+            border: 2px solid #50C878;
+        }
+        
+
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .card__img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            transition: filter 0.5s ease-in-out;
+            border-bottom: 3px solid #eee;
+        }
+
+        
+      
+        .card__info {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        }
+
+        .card__category {
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card__title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        /* The card explore button with sprinkle effect*/
+        .explore-btn {
+            background-color: #235347; 
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            border-radius: 0px; 
+            position:flex;
+            bottom: 2cm;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background-color: #163832; 
+            transform: scale(1.05);
+            animation: bounce 0.8s;
+        }
+
+
+        @media (max-width: 768px) {
+            .cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .card {
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+        
+        .sprinkle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background-color: #8EB69B;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 1;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+       .content-wrapper {
+            position: absolute;
+            top: 15cm;
+            width: 100%;
+            max-width: 100%; 
+            height: 20cm;
+            margin: 0 auto; 
+            padding: 20px; 
+            border: 0px;
+            border-radius: 2px; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+            background-color: #203a43; 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            transition: background-image 0.5s ease;
+        }
+
+        /*Drag and Drop*/
+                 .container {
+            position: relative;
+            max-width: 625px;
+            background-color: #d9d9d9;
+            margin-top: 2cm;
+            margin-left: 430px;
+            justify-content: center;
+            padding: 100px;
+            border-radius: 15px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            border: 5px inset #ffee8c;
+            z-index: 10;
+            padding: 20px;
+            backdrop-filter: blur(25px);
+
+
+        }
+
+        h3 {
+            color: #fff;
+            margin-top: 21cm;
+            font-size: 1.8em;
+        }
+
+        .container .list {
+            position: relative;
+            display: flex;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: 0.5s;
+            overflow: hidden;
+        }
+
+            .container .list:hover {
+            background: #fff;
+            box-shadow: -15px 30px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(1.15) translateX(30px) translateY(-15px);
+            z-index: 1000;
+        }
+
+
+        .container .list .imgBx {
+            background: rgb(237,238,174);
+            background: radial-gradient(circle, rgba(237,238,174,1) 0%, rgba(148,190,233,1) 100%);
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .container .list .imgBx img {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container .list .content {
+            flex-direction: column;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .container .list .content .rank {
+            position: absolute;
+            right: -50px;
+            color: darkred;
+            transition: 0.5s;
+            font-size: 2em;
+        }
+
+        .container .list .content .rank small {
+            font-weight: 500;
+            opacity: 0.25;
+        }
+
+        .container .list:hover .content .rank {
+            right: 20px;
+        }
+
+        .container .list .content h4 {
+            line-height: 1.2em;
+            font-weight: 600;
+            transition: 0.5s;
+        }
+
+        .container .list .content h4 {
+            color: black;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .dragging {
+            opacity: 0.7;
+            transform: rotate(-2deg);
+        }
+
+        /*Geolocation*/
+        #geotitle {
+            position: relative;
+            justify-content: center;
+            top: 2.5cm;
+            font-family: "Big Shoulders Stencil", sans-serif;
+            animation:  glowEffect 1.5s infinite alternate;
+            font-size: 80px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        #geodes {
+            position: relative;
+            justify-content: center;
+            top: 2.5cm;
+            font-size: 18px;
+            color: darkgreen;
+            opacity: 0.9;
+        }
+        /*Button with sparkle effect*/
+
+        .btn {
+            position: relative;
+            top: 3cm;
+            justify-content: center;
+            background: #ffdd57;
+            color: black;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: 0.3s;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .btn:hover {
+            background: #f4c531;
+        }
+
+         /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: gold;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-animation 0.6s ease-out forwards;
+        }
+
+
+        #map {
+            position:relative;
+            margin-top: 3.5cm;
+            margin-bottom:1cm;
+            width: 20cm;
+            height: 50cm;
+            z-index: 2;
+        }
+
+        .geobox{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: url('https://i.pinimg.com/736x/b5/5f/db/b55fdbd7a4d605521643ce123b7ab381.jpg');
+            background-size: cover;
+            margin-top: 3cm;
+            color: white;
+            width: 100%;
+            max-width: 100%;
+            height: 20cm;
+            overflow-x: hidden;
+        }
+        /*Server side event*/
+        #sse-updates {
+            position: fixed;
+            z-index: 10;
+            right: 10px;  
+            top: 34%;  
+            transform: translateY(-50%);
+            width: 200px;  
+            padding: 10px;
+            border: 0px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            overflow-y: auto; 
+            max-height: 80vh; 
+            background-color:#ABABAB;
+            color: black;
+        }
+
+
+        .live-log {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #3c3c3c;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 6px solid #ffdd57;
+            box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .live-message {
+            font-size: 12px;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .live-update-btn {
+            background: #324D3E;
+            color: black;
+            padding: 5px 15px;
+            border: none;
+            border-radius:15px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .live-update-btn:hover {
+            background: #2B4336;
+            transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+
+    <!-- The navigation bar -->
+    <!-- REFERENCE -->
+    <!-- W3schools. (2019). CSS Navigation Bar.12 March 2025,from website W3schools.com. https://www.w3schools.com/css/css_navbar.asp -->
+
+    <!-- FEATURES EXPLAINATION -->
+    <!-- The navigation bar on the website lets users easily access sections like 'Home,' 'Attractions,' and 'Map.' HTML is used to create the links, while CSS adds styling. Hover effects and responsive design help the navigation bar look good and work well on different devices. This improves the user experience and makes the website more user-friendly. -->
+     <nav>
+        <ul>
+            <li><a href="#Home">Home</a></li>
+            <li><a href="#Attractions">Attractions</a></li>
+            <li><a href="#Ranking">Ranking</a></li>
+            <li><a href="#Map">Map</a></li>
+
+
+        </ul>
+    </nav>
+
+    <!-- The website intro headings -->
+    <section id="Home" class="hero">
+        <div class="hero-text">
+            <p>THE ABODE OF PEACE</p>
+            <h1>LET'S <br> EXPLORE <br> BRUNEI GEMS</h1>
+        </div>
+        <img src="https://www.bizbrunei.com/wp-content/uploads/2024/07/290724-BBF-bedb.jpg" alt="Brunei's Gems">
+    </section>
+
+    <!-- The CSS animation -->
+    <!-- REFERENCE -->
+    <!-- CodePen. (n.d.). FlexBox Exercise #4 - Same height cards. Retrieved February 26, 2025, from https://codepen.io/veronicadev/pen/WJyOwG  -->
+
+    <!-- FEATURES EXPLAINATION -->
+    <!-- CSS animation- Card slider of interesting places in Brunei with features of carousel effect , where if you click one card it will be highlighted in center and the other will be blurred. The highlighted card also will have interactive buttons ' Explore', with sparkle using CSS animation to make it more interesting which is to show the details of the places. -->
+
+    <!-- Using content-wrapper to ensure all item are in place and inside the div   -->
+    <div class="content-wrapper" id="Attractions">
+    <h1 class= "main-title">SOME OF THE MOST POPULAR PLACES IN BRUNEI </h1>
+    
+    <p class="main-description">
+    Click the "Explore More" to learn and explore about each places in detail.
+    </p>
+
+    <!-- Adding Background Title -->
+    <div class="background-title" id="background-title">Brunei Attractions</div>
+    <p class="background-description">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <!-- Cards Section,styling and the card,adding button  -->
+    <section id class="cards">
+        <div class="card" onclick="selectCard(this, 'https://www.bruneitourism.com/wp-content/uploads/2020/08/4.The-Royal-Regalia-Museum-min.jpg', 'Royal Regalia Museum')">
+            <div class="card__img" style="background-image: url('https://www.bruneitourism.com/wp-content/uploads/2020/08/4.The-Royal-Regalia-Museum-min.jpg');"></div>
+            <div class="card__info">
+                <span class="card__category">Museum</span>
+                <h2 class="card__title">Royal Regalia Museum</h2>
+                <button class="explore-btn">Explore More</button>
+            </div>
+      </div>
+
+        <div class="card" onclick="selectCard(this, 'https://www.bruneitourism.com/wp-content/uploads/2019/08/FRL-LR-8-scaled.jpg', 'Ulu Temburong National ')">
+            <div class="card__img" style="background-image: url('https://www.bruneitourism.com/wp-content/uploads/2019/08/FRL-LR-8-scaled.jpg');"></div>
+            <div class="card__info">
+                <span class="card__category">Nature</span>
+                <h3 class="card__title">Ulu Temburong National </h3>
+                <button class="explore-btn">Explore More</button>
+            </div>
+      </div>
+
+        <div class="card" onclick="selectCard(this, 'https://www.visitsoutheastasia.travel/wp-content/uploads/2019/10/1-20190730_202045-1380x800.jpg', 'Gadong Night Market')">
+            <div class="card__img" style="background-image: url(https://www.visitsoutheastasia.travel/wp-content/uploads/2019/10/1-20190730_202045-1380x800.jpg);"></div>
+            <div class="card__info">
+                <span class="card__category">MARKET</span>
+                <h4 class="card__title">Gadong Night Market</h4>
+                <button class="explore-btn">Explore More</button>
+            </div>
+       </div>
+
+        <div class="card" onclick="selectCard(this, 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEideZdz1LYgpQchoNKdX0NqfcyfOMgPz21_7iuGGUOFl-M07l6-gN6cDtbEsc7y4x4L0ySIQxp7Veld7CmO1TgW6bbRphFQ99wDbmdBapZ9basrB1Lj70sFOTQAyrSjlaluOVjUcQ/s1600/jpcc_waterpark.jpg', 'Jerudong Park')">
+         <div class="card__img" style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEideZdz1LYgpQchoNKdX0NqfcyfOMgPz21_7iuGGUOFl-M07l6-gN6cDtbEsc7y4x4L0ySIQxp7Veld7CmO1TgW6bbRphFQ99wDbmdBapZ9basrB1Lj70sFOTQAyrSjlaluOVjUcQ/s1600/jpcc_waterpark.jpg);"></div>
+         <div class="card__info">
+                <span class="card__category">OUTDOOR</span>
+                <h5 class="card__title">Jerudong Park Playground</h5>
+                <button class="explore-btn">Explore More</button>
+            </div>
+       </div>
+   </section>
+
+   <!-- The Drag and Drop -->
+   <!-- REFERENCE -->
+   <!-- Geeksforgeeks. (2025). Drag and Drop Sortable List Using HTML CSS & Javascript. Retrieved March 17, 2025, from
+    from https://www.geeksforgeeks.org/create-a-drag-and-drop-sortable-list-using-html-css-javascript/ -->
+
+    <!-- Online Tutorials. (2022). Glassmorphism List Hover Effects. Retrieved March 15, 2025, from https://youtu.be/g_d9nczOvtY?si=D2T4w4C3SG1ZEX-X  -->
+
+    <!-- FEATURES EXPLAINATION -->
+    <!-- The drag-and-drop ranking feature on my website allows users to reorder attractions in Brunei from most to least interesting. Each attraction is displayed as a draggable card, and users can move them to a new position. The JavaScript code automatically updates the ranks after reordering, providing a dynamic and interactive experience. This feature helps engage users and adds a personalized element to my project. -->
+
+<!-- Adding the header page title -->
+    <section id="Ranking">
+        <h3>Ranking Interesting Places In Brunei</h3>
+        <p style="color: white;"><b>Drag and drop to reorder the places from most to least interested</b></p>
+        <div class="container" id="container">
+
+            <li class="list" draggable="true">
+                <div class="imgBx">
+                    <img src="https://www.bruneitourism.com/wp-content/uploads/2020/08/4.The-Royal-Regalia-Museum-min.jpg">
+                </div>
+                <div class="content">
+                    <h2 class="rank"><small>#</small>1</h2>
+                    <h4>Royal Regalia</h4>
+                </div>
+            </li>
+
+            <li class="list" draggable="true">
+                <div class="imgBx">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr1qullYodSk1ZyPPlBD1BYHB2D7Qq3g_K7Q&s">
+                </div>
+                <div class="content">
+                    <h2 class="rank"><small>#</small>2</h2>
+                    <h4>Ulu Temburong National Park</h4>
+                </div>
+            </li>
+
+            <li class="list" draggable="true">
+                <div class="imgBx">
+                    <img src="https://www.bizbrunei.com/wp-content/uploads/2018/08/Pasar-Malam-Overview-11-1.jpg">
+                </div>
+                <div class="content">
+                    <h2 class="rank"><small>#</small>3</h2>
+                    <h4>Gadong Night Market</h4>
+                </div>
+            </li>
+
+            <li class="list" draggable="true">
+                <div class="imgBx">
+                    <img src="https://www.bruneitourism.com/wp-content/uploads/2019/08/jerudong-park.jpeg">
+                </div>
+                <div class="content">
+                    <h2 class="rank"><small>#</small>4</h2>
+                    <h4>Jerudong Park</h4>
+                </div>
+            </li>
+
+        </div>
+    </section>
+
+    <!-- The Geolocation -->
+    <!-- REFERENCE -->
+    <!-- HTML Geolocation.(2024). Geeksforgeeks. Retrieved 16 March,2025 from https://www.geeksforgeeks.org/html-geolocation/ -->
+
+    <!-- Sparkle button.(n.d.). Codepen. Retrieved 7 March,2025 from https://codepen.io/jh3y/pen/LYJMPBL -->
+
+    <!-- Volodymyr, A.(2023). Leaflet. Retrieved 16 March,2025 from https://leafletjs.com -->
+
+    <!-- Things To Do In Brunei.(n.d.). Holidify. Retrieved 6 March,2025 from https://www.holidify.com/places/brunei/sightseeing-and-things-to-do.html  -->
+
+    <!-- FEATURES EXPLAINATION -->
+    <!-- Geolocation - The geolocation feature in my website allows users to find nearby attractions based on their current location. It is implemented using HTML5 Geolocation API to fetch the user's location, and Leaflet.js to display an interactive map. This feature provides a practical, real-time way for users to explore Brunei's gems while enhancing the website's interactivity and visual appeal. To make the user experience more engaging, I added an animated button and dynamic markers for nearby attractions. -->
+    
+    <section id="Map" class="geobox">
+        <div class="overlay"></div>
+    <div class="content">
+        <h1 id="geotitle">Discover Brunei's Beauty</h1>
+        <p id="geodes">Experience breathtaking landscapes, rich culture, and hidden gems across the country.</p>
+        <!-- adding the interactive button when being click,it shows the places location -->
+        <button class="btn" onclick="findAttractions(event)">🌍 Find Attractions Near Me</button>
+    </div>
+    <div id="map"></div>
+
+    <!-- The Server Side Event -->
+    <!-- REFERENCE -->
+    <!-- Refsnes Data(2025) . HTML ServerSideEvent. Retrieved March 16, 2025, from website https://www.w3schools.com/html/html5_serversentevents.asp  -->
+
+    <!-- FEATURES EXPLAINATION -->
+    <!-- The 'Live Reflections' section of the website features Server-Sent Events (SSE), allowing real-time updates to be displayed without refreshing the page. Users can start receiving updates by clicking the 'Start Receiving Updates' button, enhancing the website's interaction and efficiency. -->
+<section id="sse-updates">
+    <h2 >Live Reflections: Strength, History, and Destiny</h2>
+    <div class="live-log" id="live-result">
+        <p>Waiting for updates...</p>
+    </div>
+    <!-- button to start receiving the live reflection updates -->
+    <button class="live-update-btn" onclick="startLiveUpdates()">Start Receiving Updates</button>
+</section>
+
+</section>
+
+<!-- THE JAVA SCRIPT -->
+    <script>
+// css animation
+// this is for the card animation effect 
+function selectCard(selectedCard, imageUrl, title) {
+    
+    document.querySelector('.content-wrapper').style.backgroundImage = `url('${imageUrl}')`;
+
+    document.getElementById('background-title').innerText = title;
+
+    document.querySelectorAll('.card').forEach(card => {
+        if (card === selectedCard) {
+            card.style.opacity = "1"; // 
+            card.style.transform = "scale(1.1)"; 
+        } else {
+            card.style.opacity = "0.47"; 
+        }
+    });
+}
+// the animation for sprinkle button when eplore is clicked
+function createSprinkles(x, y) {
+    for (let i = 0; i < 15; i++) {
+        const sprinkle = document.createElement("div");
+        sprinkle.classList.add("sprinkle");
+        document.body.appendChild(sprinkle);
+
+        const size = Math.random() * 6 + 4; 
+        sprinkle.style.width = `${size}px`;
+        sprinkle.style.height = `${size}px`;
+
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 50 + 20; 
+        const finalX = x + Math.cos(angle) * radius;
+        const finalY = y + Math.sin(angle) * radius;
+
+        sprinkle.style.left = `${x}px`;
+        sprinkle.style.top = `${y}px`;
+
+        setTimeout(() => {
+            sprinkle.style.transform = `translate(${finalX - x}px, ${finalY - y}px) scale(0)`;
+            sprinkle.style.opacity = "0";
+        }, 10);
+
+        setTimeout(() => {
+            sprinkle.remove();
+        }, 1000);
+    }
+}
+// drag and drop
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".explore-btn");
+
+    buttons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            createSprinkles(e.clientX, e.clientY);
+        });
+    });
+});
+
+        const lists = document.querySelectorAll('.list');
+        const container = document.getElementById('container');
+
+        let draggedItem = null;
+
+        lists.forEach(list => {
+            list.addEventListener('dragstart', (e) => {
+                draggedItem = e.target;
+                setTimeout(() => {
+                    e.target.classList.add('dragging');
+                }, 0);
+            });
+
+            list.addEventListener('dragend', (e) => {
+                e.target.classList.remove('dragging');
+                draggedItem = null;
+            });
+
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const draggingElement = document.querySelector('.dragging');
+                if (afterElement == null) {
+                    container.appendChild(draggingElement);
+                } else {
+                    container.insertBefore(draggingElement, afterElement);
+                }
+            });
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.list:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        // Function to update the rank numbers after drag-and-drop
+const updateRanks = () => {
+    const updatedLists = document.querySelectorAll('.list');
+    updatedLists.forEach((list, index) => {
+        const rank = list.querySelector('.rank');
+        rank.innerHTML = `<small>#</small>${index + 1}`;
+    });
+}
+// geolocation java
+// The website uses the HTML5 Geolocation API and Leaflet.js to display an interactive map of nearby attractions in Brunei. This real-time exploration enhances the website's interactivity and visual appeal, with an animated button and moving markers for nearby attractions.
+container.addEventListener('drop', updateRanks);
+
+let map = L.map('map').setView([4.5353, 114.7277], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let attractions = [
+            { name: "The Omar Ali Saifuddien Mosque", lat: 4.8894, lon: 114.9396 },
+            { name: "The Royal Regalia Museum", lat: 4.8903, lon: 114.9422 },
+            { name: "The Brunei Museum", lat: 4.5803, lon: 114.1904 },
+            { name: "The Ulu Temburong National Park", lat: 4.5000, lon: 115.1500 },
+            { name: "The Jerudong Park Playground", lat: 4.8900, lon: 114.8300 },
+            { name: "The Tasek Merimbun Heritage Park", lat: 4.6333, lon: 114.7000 },
+            { name: "The Kampong Ayer", lat: 4.8897, lon: 114.9426 },
+            { name: "Billionth Barrel Monument", lat: 4.6144, lon: 114.1953 },
+            { name: "Eco Corridor", lat: 4.9033, lon: 114.9169 },
+            { name: "Pantai Muara", lat: 5.0167, lon: 115.0667 },
+            { name: "Pantai Serasa", lat: 5.0078, lon: 115.0742 },
+            { name: "Kuala Belait Town Square", lat: 4.5833, lon: 114.1833 },
+            { name: "Bukit Patoi Forest Reserve", lat: 4.6095, lon: 115.0836 },
+            { name: "Pasar Malam Gadong", lat: 4.8892, lon: 114.9315 },
+            { name: "Masjid Jame Hassanal Bolkiah", lat: 4.8884, lon: 114.9332 }
+        ];
+
+        function findAttractions(event) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showNearbyAttractions);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+
+            createSparkles(event);
+        }
+
+        function showNearbyAttractions(position) {
+            let userLat = position.coords.latitude;
+            let userLon = position.coords.longitude;
+            map.setView([userLat, userLon], 12);
+
+            L.marker([userLat, userLon]).addTo(map)
+                .bindPopup("You are here!").openPopup();
+
+            attractions.forEach(attraction => {
+                L.marker([attraction.lat, attraction.lon]).addTo(map)
+                    .bindPopup(attraction.name);
+            });
+        }
+
+        function createSparkles(event) {
+            const btn = event.target;
+            for (let i = 0; i < 10; i++) {
+                let sparkle = document.createElement("div");
+                sparkle.classList.add("sparkle");
+
+                let x = Math.random() * btn.offsetWidth;
+                let y = Math.random() * btn.offsetHeight;
+
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+
+                btn.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 600); // Remove after animation
+            }
+        }
+
+
+// sse
+let liveUpdateSource = null;
+
+function startLiveUpdates() {
+    if (liveUpdateSource) {
+        liveUpdateSource.close(); // Close existing connection
+    }
+
+    liveUpdateSource = new EventSource("https://lms.pb.edu.bn/wy2301/sse.php");
+
+    liveUpdateSource.onmessage = function(event) {
+        let message = event.data.trim();
+        console.log("RAW DATA:", message);
+
+        if (message.includes("#GROUP04")) {
+            updateLiveLog(message);
+        }
+    };
+
+    liveUpdateSource.onerror = function() {
+        console.error("Live updates connection lost. Retrying...");
+        liveUpdateSource.close();
+        setTimeout(startLiveUpdates, 5000);
+    };
+}
+
+function updateLiveLog(message) {
+    const logContainer = document.getElementById("live-result");
+    const newMessage = document.createElement("p");
+    newMessage.classList.add("live-message");
+    newMessage.textContent = message;
+
+    logContainer.appendChild(newMessage);
+    logContainer.scrollTop = logContainer.scrollHeight;
+
+    if (logContainer.children.length > 20) {
+        logContainer.removeChild(logContainer.children[0]); // Remove old logs
+    }
+}
+//--for smooth scrolling
+document.querySelectorAll('nav a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+        
+    
+    
+</body>
+</html>
+
+
+
+
+
+    
